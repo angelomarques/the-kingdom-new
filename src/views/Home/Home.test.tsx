@@ -29,19 +29,22 @@ describe('Home Component', () => {
       expect(screen.getByText('Stop')).toBeInTheDocument();
     });
     expect(screen.getByText('Session 1')).toBeInTheDocument();
-    expect(screen.getByText('50 : 00')).toBeInTheDocument();
 
-    act(() => {
-      jest.advanceTimersByTime(ONE_SECOND_IN_MILISECONDS);
+    await waitFor(() => {
+      expect(screen.getByText('49 : 59')).toBeInTheDocument();
     });
-
-    expect(screen.getByText('49 : 59')).toBeInTheDocument();
 
     act(() => {
       jest.advanceTimersByTime(ONE_SECOND_IN_MILISECONDS);
     });
 
     expect(screen.getByText('49 : 58')).toBeInTheDocument();
+
+    act(() => {
+      jest.advanceTimersByTime(ONE_SECOND_IN_MILISECONDS);
+    });
+
+    expect(screen.getByText('49 : 57')).toBeInTheDocument();
   });
 
   it('should be able to stop in the middle of the countdown', () => {

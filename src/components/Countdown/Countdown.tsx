@@ -21,7 +21,7 @@ const Countdown = ({ isRunning, initialTime }: CountdownProps) => {
   };
 
   useEffect(() => {
-    setTimeDateLimit(new Date().getTime() + initialTime);
+    if (isRunning) setTimeDateLimit(new Date().getTime() + initialTime);
   }, [isRunning, initialTime]);
 
   useEffect(() => {

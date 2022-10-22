@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from '../../components/Button';
 import Countdown from '../../components/Countdown';
 import Header from '../../components/Header';
+import SessionCount from '../../components/SessionCount';
 import { FIFTY_MINUTES_IN_MILISECONDS } from '../../utils/time';
 
 const Home = () => {
@@ -15,10 +16,14 @@ const Home = () => {
     <div className="w-full bg-gray-900 flex flex-col items-center justify-center">
       <div className="max-w-2xl">
         <Header />
+
+        <SessionCount />
+
         <Countdown
           isRunning={isCountdownRunning}
           initialTime={FIFTY_MINUTES_IN_MILISECONDS}
         />
+
         <Button
           onClick={handleClick}
           variant={isCountdownRunning ? 'warning' : 'default'}
