@@ -41,7 +41,7 @@ const Countdown = ({ isRunning, initialTime }: CountdownProps) => {
         <title>{formatTime(currentTime)}</title>
       </Head>
       <div className="bg-gray-700 py-20 px-24 rounded-lg">
-        <span className="text-2xl font-semibold text-gray-100 block m-auto w-[460px]">
+        <span className="text-2xl font-semibold text-gray-100 block w-[460px] text-center">
           {formatTime(currentTime)}
         </span>
       </div>
