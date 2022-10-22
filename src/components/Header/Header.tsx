@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Header = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col items-center gap-4 mb-12">
       <Image
         src="/images/logo.svg"
         width={112}

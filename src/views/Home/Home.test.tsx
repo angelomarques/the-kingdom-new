@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Home from '.';
 import {
@@ -18,14 +18,16 @@ describe('Home Component', () => {
     jest.useRealTimers();
   });
 
-  it('should be able to start the countdown', () => {
+  it('should be able to start the countdown', async () => {
     render(<Home />);
 
     const startButton = screen.getByText('Start');
 
     userEvent.click(startButton);
 
-    expect(screen.getByText('Stop')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Stop')).toBeInTheDocument();
+    });
     expect(screen.getByText('Session 1')).toBeInTheDocument();
     expect(screen.getByText('50 : 00')).toBeInTheDocument();
 

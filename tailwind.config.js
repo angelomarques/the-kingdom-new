@@ -24,6 +24,10 @@ module.exports = {
       },
 
       primary: '#FBBF24',
+
+      success: '#16A34A',
+      warning: '#DC2626',
+      info: '#0284C7',
     },
     extend: {
       fontFamily: {
