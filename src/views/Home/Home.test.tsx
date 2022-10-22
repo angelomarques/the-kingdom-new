@@ -1,9 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Home from '.';
-
-const ONE_SECOND_IN_MILISECONDS = 1 * 1000;
-const FIFTY_MINUTES_IN_MILISECONDS = 50 * 60 * 1000;
+import { FIFTY_MINUTES_IN_MILISECONDS, ONE_SECOND_IN_MILISECONDS } from '../../utils/time';
 
 describe('Home Component', () => {
   beforeEach(() => {
@@ -27,13 +25,13 @@ describe('Home Component', () => {
       jest.advanceTimersByTime(ONE_SECOND_IN_MILISECONDS);
     });
 
-    expect(screen.getByText('49:59')).toBeInTheDocument();
+    expect(screen.getByText('49 : 59')).toBeInTheDocument();
 
     act(() => {
       jest.advanceTimersByTime(ONE_SECOND_IN_MILISECONDS);
     });
 
-    expect(screen.getByText('49:58')).toBeInTheDocument();
+    expect(screen.getByText('49 : 58')).toBeInTheDocument();
   });
 
   it('should be able to stop the countdown', async () => {
@@ -48,6 +46,6 @@ describe('Home Component', () => {
     });
 
     expect(screen.getByText('Session done!')).toBeInTheDocument();
-    expect(screen.getByText('00:00'));
+    expect(screen.getByText('00 : 00')).toBeInTheDocument();
   });
 });
