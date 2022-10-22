@@ -1,7 +1,10 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Home from '.';
-import { FIFTY_MINUTES_IN_MILISECONDS, ONE_SECOND_IN_MILISECONDS } from '../../utils/time';
+import {
+  FIFTY_MINUTES_IN_MILISECONDS,
+  ONE_SECOND_IN_MILISECONDS,
+} from '../../utils/time';
 
 describe('Home Component', () => {
   beforeEach(() => {

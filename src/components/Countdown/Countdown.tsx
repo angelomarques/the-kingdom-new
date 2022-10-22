@@ -7,8 +7,8 @@ interface CountdownProps {
 }
 
 const Countdown = ({ isRunning, initialTime }: CountdownProps) => {
-    const [currentTime, setCurrentTime] = useState(initialTime);
-    const [timeDateLimit] = useState(new Date().getTime() + initialTime);
+  const [currentTime, setCurrentTime] = useState(initialTime);
+  const [timeDateLimit] = useState(new Date().getTime() + initialTime);
 
   const formatTime = (timeInMiliseconds: number) => {
     const totalSeconds = timeInMiliseconds / 1000;
@@ -21,30 +21,30 @@ const Countdown = ({ isRunning, initialTime }: CountdownProps) => {
   useEffect(() => {
     let interval: NodeJS.Timer;
     if (isRunning) {
-        interval = setInterval(() => {
-            setCurrentTime(prev => {
-              const currentTime = new Date().getTime()
-              if (prev > 1000) return timeDateLimit - currentTime;
-              return 0;
-            });
-        }, 1000);
+      interval = setInterval(() => {
+        setCurrentTime((prev) => {
+          const currentTime = new Date().getTime();
+          if (prev > 1000) return timeDateLimit - currentTime;
+          return 0;
+        });
+      }, 1000);
     }
 
     return () => {
-        clearInterval(interval);
-    }
+      clearInterval(interval);
+    };
   }, [isRunning, timeDateLimit]);
 
   return (
     <>
-    <Head>
+      <Head>
         <title>{formatTime(currentTime)}</title>
-    </Head>
-    <div className="bg-gray-700 py-20 px-24 rounded-lg">
-      <span className="text-2xl font-semibold text-gray-100 block m-auto w-[460px]">
-        {formatTime(currentTime)}
-      </span>
-    </div>
+      </Head>
+      <div className="bg-gray-700 py-20 px-24 rounded-lg">
+        <span className="text-2xl font-semibold text-gray-100 block m-auto w-[460px]">
+          {formatTime(currentTime)}
+        </span>
+      </div>
     </>
   );
 };

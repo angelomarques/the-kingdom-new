@@ -36,13 +36,13 @@ describe('Countdown Component', () => {
 
     act(() => {
       jest.advanceTimersByTime(ONE_SECOND_IN_MILISECONDS);
-    })
+    });
 
     expect(screen.getByText('49 : 59')).toBeInTheDocument();
 
     act(() => {
       jest.advanceTimersByTime(FIFTY_MINUTES_IN_MILISECONDS);
-    })
+    });
 
     expect(screen.getByText('00 : 00')).toBeInTheDocument();
   });
