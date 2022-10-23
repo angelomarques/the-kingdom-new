@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 interface CountdownProps {
   isRunning: boolean;
   initialTime: number;
+  onFinish?: () => void;
 }
 
-const Countdown = ({ isRunning, initialTime }: CountdownProps) => {
+const Countdown = ({ isRunning, initialTime, onFinish }: CountdownProps) => {
   const [currentTime, setCurrentTime] = useState(initialTime);
   const [timeDateLimit, setTimeDateLimit] = useState(
     new Date().getTime() + initialTime
@@ -19,6 +20,10 @@ const Countdown = ({ isRunning, initialTime }: CountdownProps) => {
 
     return `${minutes} : ${seconds}`;
   };
+
+  useEffect(() => {
+    if (currentTime < 1000) onFinish && onFinish();
+  }, [currentTime < 1000]);
 
   useEffect(() => {
     setCurrentTime(initialTime);

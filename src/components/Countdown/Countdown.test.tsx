@@ -3,7 +3,7 @@ import Countdown from '.';
 import {
   FIFTY_MINUTES_IN_MILISECONDS,
   ONE_SECOND_IN_MILISECONDS,
-} from '../../utils/test/time';
+} from '../../utils/time';
 
 describe('Countdown Component', () => {
   beforeEach(() => {

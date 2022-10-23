@@ -9,7 +9,7 @@ import {
   ONE_SECOND_IN_MILISECONDS,
   TEN_MINUTES_IN_MILISECONDS,
   TWENTY_FIVE_MINUTES_IN_MILISECONDS,
-} from '../../utils/test/time';
+} from '../../utils/time';
 
 describe('Home Component', () => {
   let container: HTMLDivElement | null = null;
@@ -102,19 +102,27 @@ describe('Home Component', () => {
     expect(screen.getByText('Session 1')).toBeInTheDocument();
   });
 
-  it('should be able to finish the countdown', () => {
+  it('should be able to finish the countdown', async () => {
     renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 
     userEvent.click(startButton);
 
+    await waitFor(() => {
+      expect(screen.getByText('Stop')).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(screen.getByText('49 : 59')).toBeInTheDocument();
+    });
+
     act(() => {
       jest.advanceTimersByTime(FIFTY_MINUTES_IN_MILISECONDS);
     });
 
-    expect(screen.getByText('Session done!')).toBeInTheDocument();
-    expect(screen.getByText('00 : 00')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Session done!')).toBeInTheDocument();
+    });
   });
 
   it('should be able to go to the next session', () => {
