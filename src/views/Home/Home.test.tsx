@@ -1,25 +1,38 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { unmountComponentAtNode } from 'react-dom';
 import Home from '.';
+import { renderWithModal } from '../../utils/test/renderWithModal';
 import {
   FIFTY_MINUTES_IN_MILISECONDS,
   FIVE_MINUTES_IN_MILISECONDS,
   ONE_SECOND_IN_MILISECONDS,
   TEN_MINUTES_IN_MILISECONDS,
   TWENTY_FIVE_MINUTES_IN_MILISECONDS,
-} from '../../utils/time';
+} from '../../utils/test/time';
 
 describe('Home Component', () => {
+  let container: HTMLDivElement | null = null;
+
   beforeEach(() => {
     jest.useFakeTimers();
+
+    // setup a DOM element as a render target
+    container = document.createElement('div');
+    document.body.appendChild(container);
   });
 
   afterEach(() => {
     jest.useRealTimers();
+
+    // cleanup on exiting
+    unmountComponentAtNode(container!);
+    container!.remove();
+    container = null;
   });
 
   it('should be able to start the countdown', async () => {
-    render(<Home />);
+    renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 
@@ -47,14 +60,20 @@ describe('Home Component', () => {
     expect(screen.getByText('49 : 57')).toBeInTheDocument();
   });
 
-  it('should be able to stop in the middle of the countdown', () => {
-    render(<Home />);
+  it('should be able to stop in the middle of the countdown', async () => {
+    renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 
     userEvent.click(startButton);
 
+    await waitFor(() => {
+      expect(screen.getByText('Stop')).toBeInTheDocument();
+    });
     expect(screen.getByText('Session 1')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('49 : 59')).toBeInTheDocument();
+    });
 
     act(() => {
       jest.advanceTimersByTime(TWENTY_FIVE_MINUTES_IN_MILISECONDS);
@@ -66,19 +85,25 @@ describe('Home Component', () => {
 
     const modalTextContent =
       'Are you sure you want to stop in the middle of the session? It will not be counted!';
-    expect(screen.getByText(modalTextContent)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(modalTextContent)).toBeInTheDocument();
+    });
 
     const confirmStopButton = screen.getByText('Stop session');
 
     userEvent.click(confirmStopButton);
 
-    expect(screen.queryByText(modalTextContent)).not.toBeInTheDocument();
-    expect(screen.getByText('00 : 00')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText(modalTextContent)).not.toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(screen.getByText('50 : 00')).toBeInTheDocument();
+    });
     expect(screen.getByText('Session 1')).toBeInTheDocument();
   });
 
   it('should be able to finish the countdown', () => {
-    render(<Home />);
+    renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 
@@ -93,7 +118,7 @@ describe('Home Component', () => {
   });
 
   it('should be able to go to the next session', () => {
-    render(<Home />);
+    renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 
@@ -115,7 +140,7 @@ describe('Home Component', () => {
   });
 
   it('should be able to start the break session', () => {
-    render(<Home />);
+    renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 
@@ -137,7 +162,7 @@ describe('Home Component', () => {
   });
 
   it('should be able to skip the break session', () => {
-    render(<Home />);
+    renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 
@@ -167,7 +192,7 @@ describe('Home Component', () => {
   });
 
   it('should reset the countdown after the break session', () => {
-    render(<Home />);
+    renderWithModal(<Home />);
 
     const startButton = screen.getByText('Start');
 

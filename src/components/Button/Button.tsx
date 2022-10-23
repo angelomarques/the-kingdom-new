@@ -3,10 +3,16 @@ import { clsx } from 'clsx';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'default' | 'success' | 'warning' | 'info';
+  size?: 'sm' | 'md' | 'lg';
   children: string;
 }
 
-const Button = ({ variant = 'default', children, ...props }: ButtonProps) => {
+const Button = ({
+  variant = 'default',
+  size = 'md',
+  children,
+  ...props
+}: ButtonProps) => {
   return (
     <button
       className={clsx(
@@ -20,7 +26,15 @@ const Button = ({ variant = 'default', children, ...props }: ButtonProps) => {
       )}
       {...props}
     >
-      <span className="text-gray-100 text-lg">{children}</span>
+      <span
+        className={clsx('text-gray-100 text-lg', {
+          'text-sm': size === 'sm',
+          'text-md': size === 'md',
+          'text-lg': size === 'lg',
+        })}
+      >
+        {children}
+      </span>
     </button>
   );
 };
