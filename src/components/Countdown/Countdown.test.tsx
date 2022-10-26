@@ -1,8 +1,9 @@
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import Countdown from '.';
 import {
   FIFTY_MINUTES_IN_MILISECONDS,
   ONE_SECOND_IN_MILISECONDS,
+  TWENTY_FIVE_MINUTES_IN_MILISECONDS,
 } from '../../utils/time';
 
 describe('Countdown Component', () => {
@@ -21,12 +22,11 @@ describe('Countdown Component', () => {
 
     screen.getByText('50 : 00');
 
-    waitFor(
-      () => {
-        expect(screen.getByText('50 : 00')).toBeInTheDocument();
-      },
-      { timeout: ONE_SECOND_IN_MILISECONDS }
-    );
+    act(() => {
+      jest.advanceTimersByTime(TWENTY_FIVE_MINUTES_IN_MILISECONDS);
+    });
+
+    expect(screen.getByText('50 : 00')).toBeInTheDocument();
   });
 
   it('should run the countdown', async () => {
