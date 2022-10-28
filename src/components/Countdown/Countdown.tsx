@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ONE_SECOND_IN_MILISECONDS } from '../../utils/time';
 
 interface CountdownProps {
@@ -10,8 +10,9 @@ interface CountdownProps {
 
 const Countdown = ({ isRunning, initialTime, onFinish }: CountdownProps) => {
   const [currentTime, setCurrentTime] = useState(initialTime);
-  const [timeDateLimit, setTimeDateLimit] = useState(
-    new Date().getTime() + initialTime
+  const timeDateLimit = useMemo(
+    () => new Date().getTime() + initialTime,
+    [isRunning, initialTime]
   );
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -39,7 +40,6 @@ const Countdown = ({ isRunning, initialTime, onFinish }: CountdownProps) => {
 
   useEffect(() => {
     setCurrentTime(initialTime);
-    setTimeDateLimit(new Date().getTime() + initialTime);
   }, [isRunning, initialTime]);
 
   useEffect(() => {
