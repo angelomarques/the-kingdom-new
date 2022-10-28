@@ -17,6 +17,7 @@ const Home = () => {
   const modalTriggerButtonRef = useRef<HTMLButtonElement>(null);
   const [isBreakRunning, setIsBreakRunning] = useState(false);
   const [isSessionDone, setIsSessionDone] = useState(false);
+  const [completedSessions, setCompletedSessions] = useState(0);
 
   function handleClick() {
     setIsCountdownRunning((prev) => !prev);
@@ -26,19 +27,36 @@ const Home = () => {
     setIsBreakRunning(true);
   }
 
-  const handleFinishCountdown = useCallback(() => {
-    modalTriggerButtonRef.current?.click();
-    setIsSessionDone(true);
-    setIsCountdownRunning(false);
-  }, []);
+  function handleGoToNextSession() {
+    setCompletedSessions((prev) => prev + 1);
+    setIsBreakRunning(false);
+    setIsSessionDone(false);
+  }
+
+  // TO-DO: check the real need for this useCallback use
+  const handleFinishCountdown = useCallback(
+    (shouldGoToNextSession: boolean) => {
+      if (shouldGoToNextSession) {
+        handleGoToNextSession();
+      } else {
+        modalTriggerButtonRef.current?.click();
+        setIsSessionDone(true);
+        setIsCountdownRunning(false);
+      }
+    },
+    []
+  );
 
   return (
-    <div className="w-full bg-gray-900 flex flex-col items-center justify-center">
+    <div className="w-full min-h-screen bg-gray-900 flex flex-col items-center justify-center">
       <Dialog.Trigger ref={modalTriggerButtonRef} />
       <div className="max-w-2xl">
         <Header />
 
-        <SessionCount />
+        <SessionCount
+          currentSession={completedSessions + 1}
+          isOnBreak={isBreakRunning}
+        />
 
         <Countdown
           isRunning={isCountdownRunning || isBreakRunning}
@@ -47,18 +65,26 @@ const Home = () => {
               ? TEN_MINUTES_IN_MILISECONDS
               : FIFTY_MINUTES_IN_MILISECONDS
           }
-          onFinish={handleFinishCountdown}
+          onFinish={() => handleFinishCountdown(isBreakRunning)}
         />
 
-        {isCountdownRunning ? (
+        {isCountdownRunning && (
           <Dialog.Trigger asChild>
             <Button variant="warning" size="lg">
               Stop
             </Button>
           </Dialog.Trigger>
-        ) : (
+        )}
+
+        {!isCountdownRunning && !isBreakRunning && (
           <Button onClick={handleClick} size="lg">
             Start
+          </Button>
+        )}
+
+        {isBreakRunning && (
+          <Button variant="info" onClick={handleGoToNextSession} size="lg">
+            Skip
           </Button>
         )}
       </div>
@@ -66,7 +92,9 @@ const Home = () => {
       {isSessionDone ? (
         <Modal content="Session done!">
           <Dialog.Close asChild>
-            <Button variant="warning">Cancel</Button>
+            <Button variant="warning" onClick={handleGoToNextSession}>
+              Cancel
+            </Button>
           </Dialog.Close>
           <Dialog.Close asChild onClick={handleStartBreak}>
             <Button variant="success">Start Break</Button>
