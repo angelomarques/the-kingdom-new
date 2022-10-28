@@ -1,5 +1,7 @@
 # The Kingdom Version 2
 
+![Full Screen Image](/public/images/screen-print.png)
+
 ## About
 
 Access the deployed app [here](https://the-kingdom-new.vercel.app/)
