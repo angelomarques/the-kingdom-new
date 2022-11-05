@@ -1,0 +1,22 @@
+name: Test Coverage
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  Test-Coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Test Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: yarn ci
+      - run: yarn lint
+      - run: yarn test:ci

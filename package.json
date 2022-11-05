@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint && prettier --write .",
     "husky": "husky install",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "test:ci": "jest --coverage --ci"
   },
   "dependencies": {
     "@fontsource/inter": "^4.5.14",
