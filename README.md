@@ -10,6 +10,7 @@ Pomodoro App
 
 ## Tech Stack
 
+- **[CI/CD with Github Actions](https://github.com/features/actions/)**
 - **[React JS](https://reactjs.org/)**
 - **[Typescript](https://www.typescriptlang.org/)**
 - **[Radix UI](https://www.radix-ui.com/)**
