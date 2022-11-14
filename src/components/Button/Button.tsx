@@ -1,31 +1,37 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes, ReactNode } from 'react';
 import { clsx } from 'clsx';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'default' | 'success' | 'warning' | 'info';
+  variant?: 'default' | 'success' | 'warning' | 'info' | 'outline';
   size?: 'sm' | 'md' | 'lg';
+  icon?: ReactNode;
   children: string;
 }
 
 const Button = ({
   variant = 'default',
   size = 'md',
+  icon = null,
   children,
+  className,
   ...props
 }: ButtonProps) => {
   return (
     <button
       className={clsx(
-        'w-full rounded-lg py-4 px-3 hover:opacity-90 transition-colors',
+        'w-full rounded-lg p-3 hover:opacity-90 transition-colors flex items-center justify-center gap-2',
         {
           'bg-gray-700': variant === 'default',
           'bg-success': variant === 'success',
           'bg-warning': variant === 'warning',
           'bg-info': variant === 'info',
-        }
+          'border-2 border-gray-700': variant === 'outline',
+        },
+        className
       )}
       {...props}
     >
+      {icon ? icon : null}
       <span
         className={clsx('text-gray-100 text-lg', {
           'text-sm': size === 'sm',

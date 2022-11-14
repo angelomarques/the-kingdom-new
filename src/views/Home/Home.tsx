@@ -11,6 +11,7 @@ import {
   FIFTY_MINUTES_IN_MILISECONDS,
   TEN_MINUTES_IN_MILISECONDS,
 } from '../../utils/time';
+import AuthButton from '../../components/AuthButton';
 
 const Home = () => {
   const [isCountdownRunning, setIsCountdownRunning] = useState(false);
@@ -48,8 +49,11 @@ const Home = () => {
   );
 
   return (
-    <div className="w-full min-h-screen bg-gray-900 flex flex-col items-center justify-center">
+    <div className="w-full min-h-screen bg-gray-900 flex flex-col items-center justify-center py-6 px-6">
       <Dialog.Trigger ref={modalTriggerButtonRef} />
+      <nav className='self-end mb-auto w-40'>
+        <AuthButton />
+      </nav>
       <div className="max-w-2xl">
         <Header />
 
