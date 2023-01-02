@@ -12,6 +12,8 @@ import {
   TEN_MINUTES_IN_MILISECONDS,
 } from '../../utils/time';
 import AuthButton from '../../components/AuthButton';
+import { useAuthUser } from 'next-firebase-auth';
+import { addSession } from '../../utils/session';
 
 const Home = () => {
   const [isCountdownRunning, setIsCountdownRunning] = useState(false);
@@ -19,6 +21,8 @@ const Home = () => {
   const [isBreakRunning, setIsBreakRunning] = useState(false);
   const [isSessionDone, setIsSessionDone] = useState(false);
   const [completedSessions, setCompletedSessions] = useState(0);
+
+  const user = useAuthUser();
 
   function handleClick() {
     setIsCountdownRunning((prev) => !prev);
@@ -40,6 +44,7 @@ const Home = () => {
       if (shouldGoToNextSession) {
         handleGoToNextSession();
       } else {
+        addSession(user.id!);
         modalTriggerButtonRef.current?.click();
         setIsSessionDone(true);
         setIsCountdownRunning(false);
@@ -51,12 +56,11 @@ const Home = () => {
   return (
     <div className="w-full min-h-screen bg-gray-900 flex flex-col items-center justify-center py-6 px-6">
       <Dialog.Trigger ref={modalTriggerButtonRef} />
-      <nav className='self-end mb-auto w-40'>
+      <nav className="self-end mb-auto w-40">
         <AuthButton />
       </nav>
       <div className="max-w-2xl">
         <Header />
-
         <SessionCount
           currentSession={completedSessions + 1}
           isOnBreak={isBreakRunning}

@@ -37,3 +37,6 @@ next-env.d.ts
 
 # Gherkin
 scenarios
+
+# Firebase Credentials
+firebase-credentials.json
