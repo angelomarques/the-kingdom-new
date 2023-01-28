@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 
 import Button from '../../components/Button';
@@ -38,20 +38,16 @@ const Home = () => {
     setIsSessionDone(false);
   }
 
-  // TO-DO: check the real need for this useCallback use
-  const handleFinishCountdown = useCallback(
-    (shouldGoToNextSession: boolean) => {
-      if (shouldGoToNextSession) {
-        handleGoToNextSession();
-      } else {
-        addSession(user.id!);
-        modalTriggerButtonRef.current?.click();
-        setIsSessionDone(true);
-        setIsCountdownRunning(false);
-      }
-    },
-    []
-  );
+  const handleFinishCountdown = (shouldGoToNextSession: boolean) => {
+    if (shouldGoToNextSession) {
+      handleGoToNextSession();
+    } else {
+      addSession(user.id!);
+      modalTriggerButtonRef.current?.click();
+      setIsSessionDone(true);
+      setIsCountdownRunning(false);
+    }
+  };
 
   return (
     <div className="w-full min-h-screen bg-gray-900 flex flex-col items-center justify-center py-6 px-6">
