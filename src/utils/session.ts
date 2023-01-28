@@ -25,9 +25,6 @@ export async function addSession(userId: string) {
     const docRef = doc(db, `database/${environment}/pomodoro_sessions`, userId);
     const docSnap = await getDoc(docRef);
 
-    console.log('the evironment is : ', environment);
-    console.log('the session is: ', session);
-
     if (docSnap.exists()) {
       await updateDoc(docRef, { sessions: arrayUnion(session) });
     } else {

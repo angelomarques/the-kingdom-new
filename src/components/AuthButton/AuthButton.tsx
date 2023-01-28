@@ -7,7 +7,6 @@ const AuthButton = () => {
   const { loginWithGoogle, logout } = useAuth();
   const user = useAuthUser();
 
-  console.log(user);
   return (
     <Button
       variant="outline"

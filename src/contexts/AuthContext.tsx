@@ -1,5 +1,12 @@
 import { signInWithPopup, signOut } from 'firebase/auth';
-import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 // import {} from 'next-firebase-auth'
 import { createContext, FunctionComponent, ReactNode, useState } from 'react';
 import { auth, db, googleProvider } from '../services/firebase';
@@ -28,7 +35,6 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
     try {
       const response = await signInWithPopup(auth, googleProvider);
       const responseUser = response.user;
-      console.log('response', responseUser)
       const user: User = {
         uid: responseUser.uid,
         name: responseUser.displayName,
@@ -43,15 +49,13 @@ export const AuthProvider: FunctionComponent<AuthProviderProps> = ({
       const docsSnapshot = await getDocs(userDocsQuery);
 
       if (docsSnapshot.docs.length === 0) {
-        console.log('add')
-        const docRef = doc(db, "users", user.uid);
+        const docRef = doc(db, 'users', user.uid);
         await setDoc(docRef, user);
       }
 
       setIsAuthenticated(true);
       setUser(user);
     } catch (err) {
-      console.log('error')
       console.error(err);
       // alert(err.message);
     }
